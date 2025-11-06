@@ -69,6 +69,7 @@ This workflow automates the complete Request-for-Quotation (RFQ) handling proces
 
 ## 📂 Repository Structure
 
+```text
 ├── Task_1_RFQ_to_CRM_Automation/
 │   │
 │   ├── Workflow_JSON/
@@ -106,7 +107,8 @@ This workflow automates the complete Request-for-Quotation (RFQ) handling proces
 │   └── README.md                                  
 │
 │
-└── Master_README.md 
+└── Master_README.md  
+
 
 
 ---
