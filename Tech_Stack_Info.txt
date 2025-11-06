@@ -1,0 +1,38 @@
+Technology Stack — Task 1 RFQ → CRM Automation
+
+Platform:
+• n8n (No-code/low-code automation platform)
+
+External Integrations:
+1. Gmail API (OAuth2)
+2. Google Sheets API (OAuth2)
+3. Google Drive API (OAuth2)
+4. Slack API (Webhook and OAuth2)
+5. IMAP Email (Mail server integration)
+6. Google Gemini (PaLM) via LangChain nodes for LLM translation and parsing
+
+Data Flow Summary:
+Email → LLM Translation → Parsing → Sheets Logging → CRM Mock → Drive Upload → Gmail Reply → Slack Alert
+
+Data Models:
+• RFQ_Master_Log: Email metadata and workflow status
+• RFQ_Parsed_Details: Extracted business details
+• CRM_Mock_Log: Mock opportunity creation details
+
+Programming/Logic:
+• JavaScript function nodes for parsing and mock record generation.
+• JSON schema validation for structured data.
+• Regex-based field extraction.
+
+Security:
+• All secrets replaced with placeholders in JSON (`{{GOOGLE_SHEET_ID}}`, `{{SLACK_CHANNEL_ID}}`, etc.)
+• OAuth2 credentials stored in n8n vault.
+• `.env.example` file provided for safe key management.
+
+Testing:
+• Mock mode verified end-to-end.
+• No runtime errors encountered.
+• Execution logs exported as proof of successful automation.
+
+Outcome:
+A secure, language-intelligent RFQ → CRM workflow built using n8n + Google ecosystem + LLM.

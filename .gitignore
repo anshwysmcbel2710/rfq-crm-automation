@@ -1,0 +1,78 @@
+########################################
+# ALROUF LIGHTING - AI INTEGRATION PROJECT
+# Git Ignore Template (Secure + Clean)
+########################################
+
+# ---- Environment & Secrets ----
+.env
+.env.local
+.env.production
+.env.test
+*.key
+*.pem
+*.crt
+*.secret
+client_secret*.json
+token_*.json
+google_credentials.json
+service_account.json
+credentials.json
+
+# ---- n8n / Workflow Specific ----
+.n8n/
+n8n_data/
+n8n_backup/
+n8n_temp/
+workflow_executions/
+workspace.json
+
+# ---- Node / JS Artifacts (if used) ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---- Logs & Runtime Files ----
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# ---- OS / Editor Junk ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# ---- Compiled / Generated Files ----
+*.zip
+*.tar.gz
+*.7z
+*.rar
+*.gz
+*.pdf
+*.xlsx
+*.csv
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.gif
+
+# ---- Project-Specific Exclusions ----
+RFQ_to_CRM_Automation/Workflow_JSON/Error_Log.json
+RFQ_to_CRM_Automation/Workflow_JSON/CRM_Mock_Log.json
+RFQ_to_CRM_Automation/Workflow_JSON/Sample_Output_Data.json
+
+# ---- Keep Key Artifacts for Review ----
+!README.md
+!LICENSE
+!.gitignore
+!RFQ_to_CRM_Automation/Documentation/.env.example
+!RFQ_to_CRM_Automation/Workflow_JSON/RFQ_to_CRM_Workflow.json
+

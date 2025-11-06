@@ -1,0 +1,13 @@
+[
+  {
+    "crmId": "MOCK-0WX1BT",
+    "createdAt": "2025-11-06T09:01:20.664Z",
+    "name": "Untitled RFQ",
+    "description": "No description provided",
+    "accountEmail": "unknown@client.com",
+    "sourceMessageId": "<CABeHtUSVsDvAKfPyY3oXiNFSYtiDsH7WiHfk8qAhp+4ync-UDQ@mail.gmail.com>",
+    "amount": null,
+    "status": "Created (Mock)",
+    "crmSystem": "MockCRM"
+  }
+]

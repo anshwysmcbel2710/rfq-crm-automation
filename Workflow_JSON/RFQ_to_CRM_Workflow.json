@@ -1,0 +1,1770 @@
+{
+  "name": "Alrouf AI Integration (Production)",
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "{{GOOGLE_SHEET_ID}}",
+          "mode": "list",
+          "cachedResultName": "RFQ → CRM Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "RFQ_Master_Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "messageId",
+              "lookupValue": "={{$json[\"messageId\"]}}"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        176,
+        -176
+      ],
+      "id": "78f8af7a-1f65-449a-9d40-8d39e9ff608c",
+      "name": "Google Sheets — Lookup Row / Deduplication",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "{{GOOGLE_SHEETS_OAUTH_ID}}",
+          "name": "{{GOOGLE_SHEETS_ACCOUNT_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c16047ed-baa2-49c8-98b1-d5496f846341",
+              "leftValue": "={{ Object.keys($json).length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        -192
+      ],
+      "id": "c8674ccb-8795-4586-bf71-45a3c7feaa21",
+      "name": "IF Node —  Check if Lookup result empty"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        688,
+        112
+      ],
+      "id": "b5b8cec0-8184-43cc-b745-b29a41a82020",
+      "name": "Duplicate Email → Stop Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "{{GOOGLE_SHEET_ID}}",
+          "mode": "list",
+          "cachedResultName": "RFQ → CRM Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "RFQ_Master_Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "messageId": "={{ $json[\"messageId\"] }}",
+            "receivedAt": "={{ $json[\"receivedAt\"] }}",
+            "from": "={{ $json[\"from\"] }}",
+            "subject": "={{ $json[\"subject\"] }}",
+            "body": "={{ $json[\"body\"] }}",
+            "status": "New"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "messageId",
+              "displayName": "messageId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "receivedAt",
+              "displayName": "receivedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "attachments",
+              "displayName": "attachments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "crmId",
+              "displayName": "crmId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "crmStatus",
+              "displayName": "crmStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "crmSystem",
+              "displayName": "crmSystem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "crmCreatedAt",
+              "displayName": "crmCreatedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "errorMsg",
+              "displayName": "errorMsg",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "parseConfidence",
+              "displayName": "parseConfidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1344,
+        -128
+      ],
+      "id": "df6e01ba-0c90-407e-af9f-f098e1d80cbb",
+      "name": "Google Sheets — Append Row (RFQ_Master_Log)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "{{GOOGLE_SHEETS_OAUTH_ID}}",
+          "name": "{{GOOGLE_SHEETS_ACCOUNT_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "{{GOOGLE_SHEET_ID}}",
+          "mode": "list",
+          "cachedResultName": "RFQ → CRM Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1359543110,
+          "mode": "list",
+          "cachedResultName": "RFQ_Parsed_Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit#gid=1359543110"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "messageId": "={{ $json[\"messageId\"] }}",
+            "sku": "={{ $json[\"sku\"] }}",
+            "quantity": "={{ $json[\"quantity\"] }}",
+            "deliveryTerms": "={{ $json[\"deliveryTerms\"] }}",
+            "deliveryCity": "={{ $json[\"deliveryCity\"] }}",
+            "currency": "={{ $json[\"currency\"] }}",
+            "estimatedValue": "={{ $json[\"estimatedValue\"] }}",
+            "neededBy": "={{ $json[\"neededBy\"] }}",
+            "clientName": "={{ $json[\"clientName\"] }}",
+            "clientPhone": "={{ $json[\"clientPhone\"] }}",
+            "clientEmail": "={{ $json[\"clientEmail\"] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "messageId",
+              "displayName": "messageId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sku",
+              "displayName": "sku",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "quantity",
+              "displayName": "quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "deliveryTerms",
+              "displayName": "deliveryTerms",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "deliveryCity",
+              "displayName": "deliveryCity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "neededBy",
+              "displayName": "neededBy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "currency",
+              "displayName": "currency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estimatedValue",
+              "displayName": "estimatedValue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "clientName",
+              "displayName": "clientName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "clientPhone",
+              "displayName": "clientPhone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "clientEmail",
+              "displayName": "clientEmail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1776,
+        -128
+      ],
+      "id": "1d3380d5-f1ec-4abe-8fe7-119ec04b017d",
+      "name": "Google Sheets — Append Row (RFQ_Parsed_Details)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "{{GOOGLE_SHEETS_OAUTH_ID}}",
+          "name": "{{GOOGLE_SHEETS_ACCOUNT_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ========= Final Function Node (single return) =========\n\n// Source item\nconst data = $json;\n\n// Basic sources\nconst body = (data.body || data.text || \"\").toString();\nconst fromValue = data.from?.value?.[0] || {};\nconst fromEmail = (fromValue.address || data.from || \"\").toString().trim();\nconst fromNameHeader = (fromValue.name || \"\").toString().trim();\n\n// ---------- Helper ----------\nfunction extract(regex) {\n  const m = body.match(regex);\n  return m ? m[1].trim() : \"\";\n}\n\n// ---------- Smart name extraction (priority order) ----------\nlet clientName = \"\";\n\n// 1) Signature / body pattern (preferred)\nconst signatureMatch = body.match(\n  /(best regards|regards|thanks|thanks in advance|sincerely|cheers)[\\s\\:\\-\\,\\r\\n]*([\\w\\s\\.\\-&']{2,80})$/im\n);\nif (signatureMatch && signatureMatch[2]) {\n  clientName = signatureMatch[2].trim();\n}\n\n// 2) From header name (if signature not found)\nif (!clientName && fromNameHeader) {\n  // ignore generic auto senders\n  if (!/^(no.?reply|noreply|info|sales|support|admin)/i.test(fromEmail)) {\n    clientName = fromNameHeader.replace(/[\"<>]/g, \"\").trim();\n  }\n}\n\n// 3) Derive from email username (last fallback)\nif (!clientName && fromEmail) {\n  const username = fromEmail.split(\"@\")[0];\n  const cleaned = username.replace(/[\\.\\_\\-\\d]+/g, \" \").trim();\n  clientName = cleaned\n    .split(\" \")\n    .filter(Boolean)\n    .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())\n    .join(\" \");\n}\n\n// 4) Final fallback\nif (!clientName) clientName = \"Unknown\";\nclientName = clientName.replace(/\\s+/g, \" \").trim();\n\n// ---------- Parse RFQ fields from body ----------\nconst sku = extract(/Model\\s*No[:\\-]?\\s*([A-Z0-9\\-\\_]+)/i);\nconst quantity = extract(/Quantity[:\\-]?\\s*(\\d+)/i);\nconst deliveryCity = extract(/Delivery\\s*Location[:\\-]?\\s*(.*)/i);\nconst neededBy = extract(/Delivery\\s*Timeline[:\\-]?\\s*(.*)/i);\nconst deliveryTerms = extract(/Payment\\s*Terms[:\\-]?\\s*(.*)/i);\nconst clientPhone = extract(/Phone[:\\-]?\\s*([\\+\\d\\-\\s\\(\\)]+)/i);\nconst clientEmail = extract(/Email[:\\-]?\\s*([\\w.\\-+%]+@[\\w.\\-]+\\.[A-Za-z]{2,})/i);\nconst estimatedValue = extract(/Estimated\\s*Value[:\\-]?\\s*([\\w\\$\\.\\,\\s]+)/i);\n\n// Metadata\nconst messageId = data.messageId || \"\";\nconst receivedAt = data.receivedAt || data.date || \"\";\n\n// ---------- Single output object ----------\nreturn {\n  messageId,\n  receivedAt,\n  sku,\n  quantity,\n  deliveryTerms,\n  deliveryCity,\n  neededBy,\n  currency: \"USD\",\n  estimatedValue: estimatedValue || \"\",\n  clientName,\n  clientPhone,\n  clientEmail: clientEmail || fromEmail || \"\",\n  parseConfidence: 1.0,\n  status: \"Parsed\",\n  errorMsg: \"\"\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        -128
+      ],
+      "id": "0c66b0a9-58bf-4b65-9476-9c0d05b32bcf",
+      "name": "Function Node — Extract Parsed Fields"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "{{GOOGLE_SHEET_ID}}",
+          "mode": "list",
+          "cachedResultName": "RFQ → CRM Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "RFQ_Master_Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "parseConfidence": "={{$node[\"Function Node — Extract Parsed Fields\"].json[\"parseConfidence\"]}}",
+            "status": "={{$node[\"Function Node — Extract Parsed Fields\"].json[\"status\"]}}",
+            "messageId": "={{ $json[\"messageId\"] }}"
+          },
+          "matchingColumns": [
+            "messageId"
+          ],
+          "schema": [
+            {
+              "id": "messageId",
+              "displayName": "messageId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "receivedAt",
+              "displayName": "receivedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "attachments",
+              "displayName": "attachments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmId",
+              "displayName": "crmId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmStatus",
+              "displayName": "crmStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "crmSystem",
+              "displayName": "crmSystem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "crmCreatedAt",
+              "displayName": "crmCreatedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "errorMsg",
+              "displayName": "errorMsg",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "parseConfidence",
+              "displayName": "parseConfidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1984,
+        -128
+      ],
+      "id": "11465710-de2a-4968-83ce-45f49f8b331c",
+      "name": "Google Sheets — Update Row (RFQ_Master_Log)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "{{GOOGLE_SHEETS_OAUTH_ID}}",
+          "name": "{{GOOGLE_SHEETS_ACCOUNT_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an intelligent language detection and translation assistant.\n\nYour goal:\n1. Detect the language of the following email.\n2. If the email subject and body are already in English, keep them unchanged.\n3. If they are in any other language, translate both into English.\n4. Return all required fields strictly in JSON matching the schema below.\n\nReturn JSON strictly in this format:\n{\n  \"original_language\": \"<detected_language_code>\",\n  \"translated_to_language\": \"en\",\n  \"from\": \"{{$node['Email Trigger (IMAP)'].json['from']['value'][0]['address']}}\",\n\"to\": \"{{$node['Email Trigger (IMAP)'].json['to']['value'][0]['address']}}\",\n  \"translated_subject\": \"<translated_or_original_subject>\",\n  \"translated_text\": \"<translated_or_original_text>\",\n  \"from\": \"{{$node['Email Trigger (IMAP)'].json['from']['value'][0]['address']}}\",\n  \"to\": \"{{$node['Email Trigger (IMAP)'].json['to']['value'][0]['address']}}\",\n  \"date\": \"{{$node['Email Trigger (IMAP)'].json['date']}}\",\n  \"messageId\": \"{{$node['Email Trigger (IMAP)'].json['messageId']}}\",\n  \"attributes\": \"{{$node['Email Trigger (IMAP)'].json['attributes']['uid']}}\"\n}\n\nEmail Subject: {{$node['Email Trigger (IMAP)'].json['subject']}}\nEmail Body: {{$node['Email Trigger (IMAP)'].json['text']}}\n",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        720,
+        -400
+      ],
+      "id": "9e0c6f73-4b21-4bb2-85d4-e22671a7ee72",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        752,
+        -176
+      ],
+      "id": "bed32054-3d89-4951-be52-aaf14ce25c57",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "{{GEMINI_API_ID}}",
+          "name": "{{GEMINI_API_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"original_language\": \"string\",\n  \"translated_to_language\": \"string\",\n  \"translated_subject\": \"string\",\n  \"translated_text\": \"string\",\n  \"original_subject\": \"string\",\n  \"original_text\": \"string\",\n  \"from\": \"string\",\n  \"to\": \"string\",\n  \"date\": \"string\",\n  \"messageId\": \"string\",\n  \"attributes\": \"string\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        944,
+        -144
+      ],
+      "id": "041ccbf8-014f-4065-b785-5c67885a7baa",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Get current item (each email/translation output)\nconst data = $json.output || $json;\n\n// Use translated fields if available, else fall back to original ones\nconst finalSubject = data.translated_subject || data.original_subject;\nconst finalBody = data.translated_text || data.original_text;\n\n// Return the unified structure for one item\nreturn {\n  json: {\n    messageId: data.messageId,\n    receivedAt: data.date,\n    from: data.from,\n    to: data.to,\n    subject: finalSubject,\n    body: finalBody,\n    attributes: data.attributes,\n    original_language: data.original_language || \"en\",\n    translated_to_language: data.translated_to_language || \"en\"\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1152,
+        -336
+      ],
+      "id": "dc4586d9-99d2-4370-afab-89889a9de54b",
+      "name": "Function Node — Unify Output"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// No array brackets — just return one object\nfunction generateId() {\n  return Math.random().toString(36).substring(2, 8).toUpperCase();\n}\n\nconst input = $json;\n\nconst crmId = `MOCK-${generateId()}`;\nconst createdAt = new Date().toISOString();\n\nreturn {\n  json: {\n    crmId,\n    createdAt,\n    name: input.subject || \"Untitled RFQ\",\n    description: input.body || \"No description provided\",\n    accountEmail: input.from || \"unknown@client.com\",\n    sourceMessageId: input.messageId || \"\",\n    amount: null,\n    status: \"Created (Mock)\",\n    crmSystem: \"MockCRM\"\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2224,
+        -128
+      ],
+      "id": "28844c1b-8fec-4bd9-95e6-bbd51f10a023",
+      "name": "Function Node — Create Opportunity in a robust mock"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "{{GOOGLE_SHEET_ID}}",
+          "mode": "list",
+          "cachedResultName": "Alrouf - RFQ → CRM Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "RFQ_Master_Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "messageId": "={{$node[\"Google Sheets — Update Row (RFQ_Master_Log)\"].json[\"messageId\"]}}",
+            "crmId": "={{$json[\"crmId\"]}}",
+            "crmStatus": "={{$json[\"status\"]}}",
+            "crmSystem": "={{$json[\"crmSystem\"]}}",
+            "crmCreatedAt": "={{$json[\"createdAt\"]}}",
+            "status": "Synced to CRM"
+          },
+          "matchingColumns": [
+            "messageId"
+          ],
+          "schema": [
+            {
+              "id": "messageId",
+              "displayName": "messageId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "receivedAt",
+              "displayName": "receivedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "attachments",
+              "displayName": "attachments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmId",
+              "displayName": "crmId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmStatus",
+              "displayName": "crmStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmSystem",
+              "displayName": "crmSystem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmCreatedAt",
+              "displayName": "crmCreatedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "errorMsg",
+              "displayName": "errorMsg",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "parseConfidence",
+              "displayName": "parseConfidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2464,
+        -128
+      ],
+      "id": "795f90fb-5a0e-4e82-b5be-385cc377a042",
+      "name": "Google Sheets — Update Row (RFQ_Master_Log – CRM Update)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "{{GOOGLE_SHEETS_OAUTH_ID}}",
+          "name": "{{GOOGLE_SHEETS_ACCOUNT_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "rfq_0",
+        "name": "={{$json[\"subject\"].replace(/[^\\w\\s-]/g, \"_\")}}_RFQ_Attachment_{{Date.now()}}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "{{GOOGLE_SHEET_ID}}",
+          "mode": "list",
+          "cachedResultName": "{{GOOGLE_DRIVE_FOLDER_NAME}}",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/{{GOOGLE_SHEET_ID}}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        416,
+        400
+      ],
+      "id": "f5e66e02-40dc-497d-9b02-b72a89b6b7b7",
+      "name": "Google Drive — Upload File (Archive Attachments)",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "nyreAmNRyotq5T31",
+          "name": "{{GOOGLE_DRIVE_ACCOUNT_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "format": "resolved",
+        "dataPropertyAttachmentsPrefixName": "rfq_",
+        "options": {
+          "customEmailConfig": "[\"UNSEEN\",   [\"OR\",     [\"OR\",       [\"SUBJECT\", \"RFQ\"],       [\"SUBJECT\", \"Quotation\"]     ],     [\"OR\",       [\"SUBJECT\", \"عرض أسعار\"],       [\"SUBJECT\", \"طلب عرض أسعار\"]     ]   ] ]",
+          "forceReconnect": 5,
+          "trackLastMessageId": true
+        }
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.1,
+      "position": [
+        -48,
+        0
+      ],
+      "id": "476f5f99-ab61-49aa-90f8-33054c38699c",
+      "name": "Email Trigger (IMAP)",
+      "credentials": {
+        "imap": {
+          "id": "{{IMAP_CREDENTIAL_ID}}",
+          "name": "{{IMAP_ACCOUNT_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2864,
+        368
+      ],
+      "id": "278669eb-d507-447a-9a4b-1d3bb29cd34f",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "{{GOOGLE_SHEET_ID}}",
+          "mode": "list",
+          "cachedResultName": "Alrouf - RFQ → CRM Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "RFQ_Master_Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "messageId": "={{$json[\"messageId\"]}}",
+            "status": "Attachment Uploaded",
+            "attachments": "={{$json[\"webViewLink\"]}}"
+          },
+          "matchingColumns": [
+            "messageId"
+          ],
+          "schema": [
+            {
+              "id": "messageId",
+              "displayName": "messageId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "receivedAt",
+              "displayName": "receivedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "attachments",
+              "displayName": "attachments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmId",
+              "displayName": "crmId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmStatus",
+              "displayName": "crmStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmSystem",
+              "displayName": "crmSystem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmCreatedAt",
+              "displayName": "crmCreatedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "errorMsg",
+              "displayName": "errorMsg",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "parseConfidence",
+              "displayName": "parseConfidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3104,
+        368
+      ],
+      "id": "ba30a0e6-d5ab-41ff-936b-c265044ce515",
+      "name": "Google Sheets — Update Row (RFQ_Master_Log – Drive Link)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "{{GOOGLE_SHEETS_OAUTH_ID}}",
+          "name": "{{GOOGLE_SHEETS_ACCOUNT_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$node[\"Google Sheets — Append Row (RFQ_Parsed_Details)\"].json[\"clientEmail\"]}}",
+        "subject": "Re: Thank you for your RFQ – We’ve received your request",
+        "message": "=<p>Dear Customer,</p>\n\n<p>Thank you for reaching out to us with your Request for Quotation (RFQ).</p> \n\n<p>We’ve successfully received your inquiry and logged it in our system for processing. Our sales team is currently reviewing your request and will get back to you shortly with the quotation details.</p>\n\n<p>If you have any additional documents or requirements, please feel free to reply to this email.</p>\n\n<p>Best regards,<br>\n<strong>Sales Team</strong><br>\nEmail: {{$node[\"Function Node — Unify Output\"].json[\"to\"]}}<br> ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        3344,
+        368
+      ],
+      "id": "72450586-4495-433d-8589-1c590260a66a",
+      "name": "Gmail — Send Automated Respond",
+      "webhookId": "{{GMAIL_WEBHOOK_ID}}",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "{{GMAIL_OAUTH_ID}}",
+          "name": "{{GMAIL_ACCOUNT_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "{{SLACK_CHANNEL_ID}}",
+          "mode": "list",
+          "cachedResultName": "all-alrouf-project"
+        },
+        "text": "=📢 *New RFQ Alert — Incoming Request for Quotation!*\n\n💼 *From:* {{$node[\"Google Sheets — Append Row (RFQ_Master_Log)\"].json[\"from\"]}}\n🧾 *Subject:* {{$node[\"Google Sheets — Append Row (RFQ_Master_Log)\"].json[\"subject\"]}}\n⏰ *Received At:* {{$node[\"Google Sheets — Append Row (RFQ_Master_Log)\"].json[\"receivedAt\"]}}\n\n📊 *CRM Status:* {{$node[\"Merge\"].json[\"crmStatus\"]}}\n📎 *Attachment Link:* {{$node[\"Merge\"].json[\"webViewLink\"]}}\n\n🧠 _This RFQ has been logged and processed automatically. Please review the opportunity in the CRM for further action._",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        3856,
+        368
+      ],
+      "id": "fc0612c9-696c-4bd8-bb45-4855ed0ad16d",
+      "name": "Send a message",
+      "webhookId": "{{SLACK_WEBHOOK_ID}}",
+      "credentials": {
+        "slackApi": {
+          "id": "{{SLACK_API_ID}}",
+          "name": "{{SLACK_ACCOUNT_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "{{GOOGLE_SHEET_ID}}",
+          "mode": "list",
+          "cachedResultName": "Alrouf - RFQ → CRM Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "RFQ_Master_Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "messageId": "={{$node[\"Merge\"].json[\"messageId\"]}}",
+            "status": "Auto-Replied"
+          },
+          "matchingColumns": [
+            "messageId"
+          ],
+          "schema": [
+            {
+              "id": "messageId",
+              "displayName": "messageId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "receivedAt",
+              "displayName": "receivedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "attachments",
+              "displayName": "attachments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmId",
+              "displayName": "crmId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmStatus",
+              "displayName": "crmStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmSystem",
+              "displayName": "crmSystem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmCreatedAt",
+              "displayName": "crmCreatedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "errorMsg",
+              "displayName": "errorMsg",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "parseConfidence",
+              "displayName": "parseConfidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3616,
+        368
+      ],
+      "id": "6578b3a2-2432-4106-b53e-0576243868e9",
+      "name": "Google Sheets — Update Row (Send Message – Auto Acknowledgment)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "{{GOOGLE_SHEETS_OAUTH_ID}}",
+          "name": "{{GOOGLE_SHEETS_ACCOUNT_NAME}}"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "{{GOOGLE_SHEET_ID}}",
+          "mode": "list",
+          "cachedResultName": "Alrouf - RFQ → CRM Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "RFQ_Master_Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/{{GOOGLE_SHEET_ID}}/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "messageId": "={{$node[\"Merge\"].json[\"messageId\"]}}",
+            "status": "Alert Posted"
+          },
+          "matchingColumns": [
+            "messageId"
+          ],
+          "schema": [
+            {
+              "id": "messageId",
+              "displayName": "messageId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "receivedAt",
+              "displayName": "receivedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "from",
+              "displayName": "from",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "attachments",
+              "displayName": "attachments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmId",
+              "displayName": "crmId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmStatus",
+              "displayName": "crmStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmSystem",
+              "displayName": "crmSystem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "crmCreatedAt",
+              "displayName": "crmCreatedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "errorMsg",
+              "displayName": "errorMsg",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "parseConfidence",
+              "displayName": "parseConfidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        4096,
+        368
+      ],
+      "id": "a378d345-13f2-4e74-94c1-a3abfc7eb840",
+      "name": "Google Sheets — Update Row (Status – Alert Posted)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "{{GOOGLE_SHEETS_OAUTH_ID}}",
+          "name": "{{GOOGLE_SHEETS_ACCOUNT_NAME}}"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets — Lookup Row / Deduplication": {
+      "main": [
+        [
+          {
+            "node": "IF Node —  Check if Lookup result empty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Node —  Check if Lookup result empty": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Duplicate Email → Stop Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets — Append Row (RFQ_Master_Log)": {
+      "main": [
+        [
+          {
+            "node": "Function Node — Extract Parsed Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function Node — Extract Parsed Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets — Append Row (RFQ_Parsed_Details)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets — Append Row (RFQ_Parsed_Details)": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets — Update Row (RFQ_Master_Log)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Function Node — Unify Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function Node — Unify Output": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets — Append Row (RFQ_Master_Log)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets — Update Row (RFQ_Master_Log)": {
+      "main": [
+        [
+          {
+            "node": "Function Node — Create Opportunity in a robust mock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function Node — Create Opportunity in a robust mock": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets — Update Row (RFQ_Master_Log – CRM Update)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets — Update Row (RFQ_Master_Log – CRM Update)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets — Lookup Row / Deduplication",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Drive — Upload File (Archive Attachments)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive — Upload File (Archive Attachments)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets — Update Row (RFQ_Master_Log – Drive Link)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets — Update Row (RFQ_Master_Log – Drive Link)": {
+      "main": [
+        [
+          {
+            "node": "Gmail — Send Automated Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail — Send Automated Respond": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets — Update Row (Send Message – Auto Acknowledgment)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets — Update Row (Status – Alert Posted)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets — Update Row (Send Message – Auto Acknowledgment)": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "{{WORKFLOW_VERSION_ID}}",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "{{N8N_INSTANCE_ID}}"
+  },
+  "id": "AXJrmSN9Oijnjolq",
+  "tags": []
+}

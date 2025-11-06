@@ -1,0 +1,51 @@
+Integration Notes — Alrouf RFQ → CRM Automation
+
+1. Email Trigger:
+   • Node: “Email Trigger (IMAP)”
+   • Connected to company RFQ inbox.
+   • Filters unread messages with subjects containing: "RFQ", "Quotation", "عرض أسعار", or "طلب عرض أسعار".
+   • Extracts messageId, from, subject, text, attachments.
+
+2. LLM Translation:
+   • Node: “Basic LLM Chain” using Google Gemini Chat Model.
+   • Detects and translates email to English if needed.
+   • Output parsed to structured JSON.
+
+3. Data Extraction:
+   • Node: “Function Node — Extract Parsed Fields”
+   • Uses regex to extract fields like SKU, Quantity, Delivery City, Terms, Contact Info.
+   • Adds confidence and parsing status.
+
+4. Google Sheets Integration:
+   • Nodes: “Google Sheets — Append/Update”
+   • Writes parsed data to RFQ_Master_Log and RFQ_Parsed_Details.
+   • Updates status fields after each workflow stage.
+
+5. CRM Mock Integration:
+   • Node: “Function Node — Create Opportunity in a robust mock”
+   • Simulates CRM record creation with unique MOCK-ID.
+   • Fields: crmId, status, createdAt, description.
+
+6. Google Drive Integration:
+   • Node: “Google Drive — Upload File (Archive Attachments)”
+   • Uploads any RFQ attachments to shared Drive folder “RFQ_Attachments”.
+   • Returns public link for storage in Sheets.
+
+7. Gmail Auto Reply:
+   • Node: “Gmail — Send Automated Respond”
+   • Sends acknowledgment email confirming receipt of RFQ.
+
+8. Slack Notification:
+   • Node: “Send a message”
+   • Posts alert with key details to internal channel `#all-alrouf-project`.
+
+9. Error Handling:
+   • IF node detects duplicates.
+   • Empty lookup or parse failures handled with status flags.
+   • Errors logged in Error_Log.json.
+
+10. Final Updates:
+    • Workflow updates Google Sheet status in sequence:
+      “New → Parsed → Synced to CRM → Auto-Replied → Alert Posted”.
+
+All integrations tested successfully in mock production mode.

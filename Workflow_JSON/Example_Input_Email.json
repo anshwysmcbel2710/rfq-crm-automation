@@ -1,0 +1,31 @@
+{
+  "messageId": "<CA+rfq89@clientmail.com>",
+  "date": "2025-11-06T10:22:14.000Z",
+  "from": {
+    "value": [
+      {
+        "name": "Eng. Omar",
+        "address": "omar@client.com"
+      }
+    ]
+  },
+  "to": {
+    "value": [
+      {
+        "address": "sales@alrouf.com"
+      }
+    ]
+  },
+  "subject": "RFQ — Streetlight Poles",
+  "text": "Hello Alrouf,\nPlease quote 120 pcs streetlight model ALR-SL-90W.\nNeeded in Dammam within 4 weeks.\nAttach specs.\nRegards,\nEng. Omar\n+9665XXXXXXX\nomar@client.com",
+  "attachments": [
+    {
+      "filename": "Specs_ALR-SL-90W.pdf",
+      "mimeType": "application/pdf",
+      "size": 24560
+    }
+  ],
+  "attributes": {
+    "uid": "32145"
+  }
+}

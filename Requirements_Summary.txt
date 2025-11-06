@@ -1,0 +1,35 @@
+Task 1 — RFQ → CRM Automation (No-Code + LLM Optional)
+
+
+Objective:
+Automate the complete RFQ (Request for Quotation) processing pipeline — from incoming email to CRM mock logging and team alert.
+
+
+Core Workflow Steps:
+1. Capture incoming RFQ emails through IMAP trigger.
+2. Deduplicate messages using Google Sheets lookup.
+3. Detect and translate email language (LLM – Google Gemini).
+4. Extract key fields (SKU, Quantity, Delivery City, Client Info).
+5. Append parsed data to two Google Sheets:
+   • RFQ_Master_Log
+   • RFQ_Parsed_Details
+6. Create an opportunity record in a robust mock CRM.
+7. Archive attachments to Google Drive.
+8. Send auto acknowledgment to client via Gmail.
+9. Post internal alert to Slack channel.
+10. Update final workflow status in Sheet.
+
+
+Deliverables:
+• Workflow JSON (sanitized)
+• Sample Google Sheet + Drive link
+• CRM Mock Log (JSON)
+• Example Input Email + Output Data JSON
+• Auto Reply Sample
+• Error Log
+• Screenshots + Video Demo (3–7 min)
+• README + .env.example
+
+
+Outcome:
+A fully automated, multi-system workflow that captures RFQ emails, processes data intelligently, logs them, notifies internal teams, and responds to clients automatically.
